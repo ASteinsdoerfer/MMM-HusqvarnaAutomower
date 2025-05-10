@@ -17,6 +17,8 @@ A MagicMirror² module to display the current status of a Husqvarna Automower us
 
 ## 📸 Screenshot
 
+![Screenshot des Moduls](screenshot.png)
+
 
 ## 🛠️ Installation
 
