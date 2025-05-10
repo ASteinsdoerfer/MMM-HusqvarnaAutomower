@@ -18,8 +18,35 @@ A MagicMirror² module to display the current status of a Husqvarna Automower us
 ## 📸 Screenshot
 
 
-## 🔧 Installation
+## 🛠️ Installation
 
 ```bash
 cd ~/MagicMirror/modules
 git clone https://github.com/ASteinsdoerfer/MMM-HusqvarnaAutomower.git
+cd MMM-HusqvarnaAutomower
+npm install
+
+## 🔧 configuration
+Change in config.js
+
+{
+  module: "MMM-HusqvarnaAutomower",
+  position: "middle_center",
+  config: {
+    client_id: "Your Clinet ID form https://developer.husqvarnagroup.cloud/",
+    client_secret: "Your client Secret from https://developer.husqvarnagroup.cloud/",
+    updateInterval: 5 * 60 * 1000, // 5 minute period
+	
+	showBattery: true, 
+	showActivity: true, 
+	showCharging: true,
+	showTime:true,
+	showDistance:true
+	
+  }
+ },
+
+
+## 🙌 Author
+ASteinsdoerfer
+
