@@ -27,10 +27,11 @@ cd ~/MagicMirror/modules
 git clone https://github.com/ASteinsdoerfer/MMM-HusqvarnaAutomower.git
 cd MMM-HusqvarnaAutomower
 npm install
+```
 
 ## 🔧 configuration
 Change in config.js
-
+```bash
 {
   module: "MMM-HusqvarnaAutomower",
   position: "middle_center",
@@ -47,6 +48,18 @@ Change in config.js
 	
   }
  },
+```
+
+## Options
+Follwoing flags can be set (true/false)
+
+| Action | Description |
+|--------|-------------|
+|showBattery |displays the actual charging state|
+|showBActivity |displays the actual status (mowing, parked in CS,... If there's an error. This will be displayed too |
+|showCharging |displays number of charging cycles and total charging time|
+|showTime |displays the total operation time. Time for mowing and time for searchin in %|
+|showDistance |displays the total distance in km and the total average speed|
 
 
 ## 🙌 Author
