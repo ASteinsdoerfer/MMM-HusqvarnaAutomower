@@ -56,7 +56,7 @@ Follwoing flags can be set (true/false)
 | Action | Description |
 |--------|-------------|
 |showBattery |displays the actual charging state|
-|showBActivity |displays the actual status (mowing, parked in CS,... If there's an error. This will be displayed too |
+|showActivity |displays the actual status (mowing, parked in CS,... If there's an error. This will be displayed too |
 |showCharging |displays number of charging cycles and total charging time|
 |showTime |displays the total operation time. Time for mowing and time for searchin in %|
 |showDistance |displays the total distance in km and the total average speed|
