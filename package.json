@@ -1,6 +1,6 @@
 {
   "name": "MMM-HusqvarnaAutomower",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A MagicMirror²-Module displaying information and statistics of Husqvarna Automowers.",
   "main": "MMM-HusqvarnaAutomower.js",
   "author": "ASteinsdoerfer",
@@ -12,7 +12,7 @@
     "smartmirror",
     "modul",
     "open-source",
-    "smart home"
+	"smart home"
   ],
   "repository": {
     "type": "git",
@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/ASteinsdoerfer/MMM-HusqvarnaAutomower/issues"
   },
+  "images": {
+  "screenshot": "https://github.com/ASteinsdoerfer/MMM-HusqvarnaAutomower/raw/main/screenshot.png"
+ }
   "homepage": "https://github.com/ASteinsdoerfer/MMM-HusqvarnaAutomower"
 }

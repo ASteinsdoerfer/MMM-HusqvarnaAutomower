@@ -6,7 +6,7 @@ Module.register("MMM-HusqvarnaAutomower", {
   start() {
     this.mowerData = null;
     this.getAccessToken();
-	this.tokenExpiresAt = 0; // Zeit in ms (UNIX timestamp)
+                this.tokenExpiresAt = 0; // Zeit in ms (UNIX timestamp)
     this.updateTimer = null;
     this.getAccessToken(); // initialer Tokenabruf
     this.scheduleUpdate();
@@ -77,91 +77,82 @@ Module.register("MMM-HusqvarnaAutomower", {
   }
 
   const mower = this.mowerData.data?.[0];
-  
-  
-  
+
   if (mower) {
-	  
     const name = mower.attributes.system.name;
-    const mode = mower.attributes.mower.mode; //"MAIN_AREA" | "SECONDARY_AREA" | "HOME" | "DEMO" | "UNKNOWN"
-    const activity = mower.attributes.mower.activity; //"UNKNOWN" | "NOT_APPLICABLE" | "MOWING" | "GOING_HOME" | "CHARGING" | "LEAVING" | "PARKED_IN_CS" | "STOPPED_IN_GARDEN"
-	const state = mower.attributes.mower.state; //  "UNKNOWN" | "NOT_APPLICABLE" | "PAUSED" | "IN_OPERATION" | "WAIT_UPDATING" | "WAIT_POWER_UP" | "RESTRICTED" | "OFF" | "STOPPED" | "ERROR" | "FATAL_ERROR" |"ERROR_AT_POWER_UP",
-	const errorCode = mower.attributes.mower.errorCode; 
+    const mode = mower.attributes.mower.mode;
+    const activity = mower.attributes.mower.activity;
+    const state = mower.attributes.mower.state;
+    const errorCode = mower.attributes.mower.errorCode;
     const battery = Number(mower.attributes.battery.batteryPercent).toFixed(2);
-	const Gesamtzeit = mower.attributes.statistics.totalRunningTime/60/60;
-	const Suchzeit = Number(mower.attributes.statistics.totalSearchingTime*100/ mower.attributes.statistics.totalRunningTime).toFixed(2);
-	const Schneidezeit = Number(mower.attributes.statistics.totalCuttingTime*100/mower.attributes.statistics.totalRunningTime).toFixed(2);
-	const Strecke = mower.attributes.statistics.totalDriveDistance/1000;
-	const Geschwindigkeit = Number(Strecke/Gesamtzeit).toFixed(2);  
- 
-	  
-    let html = `
-	  
-      <strong>${name}</strong><br>
-      
-    `;
+    const Gesamtzeit = mower.attributes.statistics.totalRunningTime / 60 / 60;
+    const Suchzeit = Number(mower.attributes.statistics.totalSearchingTime * 100 / mower.attributes.statistics.totalRunningTime).toFixed(2);
+    const Schneidezeit = Number(mower.attributes.statistics.totalCuttingTime * 100 / mower.attributes.statistics.totalRunningTime).toFixed(2);
+    const Strecke = mower.attributes.statistics.totalDriveDistance / 1000;
+    const Geschwindigkeit = Number(Strecke / Gesamtzeit).toFixed(2);
 
-	if (this.config.showActivity) {
+    let html = `<strong><i class="fas fa-solid fa-fan"></i> ${name}</strong><br>`;
 
-      let mode_ger;  
-	  
-			
-	  switch(activity){
-		case "UNKNOWN":
-		  mode_ger = "Unbekannt";
-		  break;
-		case "NOT_APPLICABLE":
-		  mode_ger = "nicht anwendbar";
-		  break;
-		case "MOWING":
-		  mode_ger = "mäht";
-		  break;
-		case "GOING_HOME":
-		  mode_ger = "auf dem Heimweg";
-		  break;
-		case "CHARGING":
-		  mode_ger = "lädt";
-		  break;
-		case "LEAVING":
-		  mode_ger = "verlässt Ladestation";
-		  break;
-		case "PARKED_IN_CS":
-		  mode_ger = "geparkt";
-		  break;
-		case "STOPPED_IN_GARDEN":
-		  mode_ger = "steht im Garten";
-		  break;		  
-	  } 
+    if (this.config.showActivity) {
+      let mode_ger;
+      let activityIcon = '<i class="fas fa-question-circle"></i> ';
 
-      html += `Aktivität: ${mode_ger}<br>`;
-    
-	  if(errorCode>0)  {
-	        html += `Staus: ${state}<br>`;
-	        html += `Fehlercode: ${errorCode}<br>`;			
-	  }		  
-	
-	}
+      switch (activity) {
+        case "MOWING":
+          mode_ger = "mäht";
+          activityIcon = '<i class="fas fa-cut"></i> ';
+          break;
+        case "GOING_HOME":
+          mode_ger = "auf dem Heimweg";
+          activityIcon = '<i class="fas fa-home"></i> ';
+          break;
+        case "CHARGING":
+          mode_ger = "lädt";
+          activityIcon = '<i class="fa-solid fa-plug-circle-bolt"></i> ';
+          break;
+        case "LEAVING":
+          mode_ger = "verlässt Ladestation";
+          activityIcon = '<i class="fas fa-sign-out-alt"></i> ';
+          break;
+        case "PARKED_IN_CS":
+          mode_ger = "geparkt";
+          activityIcon = '<i class="fas fa-parking"></i> ';
+          break;
+        case "STOPPED_IN_GARDEN":
+          mode_ger = "steht im Garten";
+          activityIcon = '<i class="fas fa-stop"></i> ';
+          break;
+        default:
+          mode_ger = "Unbekannt";
+      }
 
-    if (this.config.showBattery) {
-      html += `Batterie: ${battery}% <br>`;
+      html += `<i class="fa-solid fa-circle-info"></i> <i class="fa-solid fa-house-signal"></i> &ensp; ${activityIcon}<br>`;
+
+      if (errorCode > 0) {
+        html += `<i class="fas fa-exclamation-triangle"></i> Status: ${state}<br>`;
+        html += `<i class="fas fa-bug"></i> Fehlercode: ${errorCode}<br>`;
+      }
     }
 
-	if (this.config.showCharging) {
-      html += `Ladedauer: ${mower.attributes.statistics.totalChargingTime/60/60}h bei ${mower.attributes.statistics.numberOfChargingCycles} Zyklen<br>`;
+    if (this.config.showBattery) {
+      html += `<i class="fas fa-battery-half"></i> ${battery}%<br>`;
+    }
+
+    if (this.config.showCharging) {
+      const chargingTime = (mower.attributes.statistics.totalChargingTime / 60 / 60).toFixed(1);
+      const chargingCycles = mower.attributes.statistics.numberOfChargingCycles;
+      html += `<i class="fa-solid fa-charging-station"></i> ${chargingTime}h  <i class="fa-solid fa-arrows-spin"></i> ${chargingCycles} <br>`;
     }
 
     if (this.config.showTime) {
-      html += `Gesamtfahrzeit: ${Gesamtzeit}h | Suchen ${Suchzeit}% Mähen ${Schneidezeit}% <br>`;
+      html += `<i class="fa-solid fa-stopwatch"></i> ${Gesamtzeit.toFixed(1)}h | &ensp; <i class="fas fa-solid fa-fan"></i> ${Schneidezeit}% <i class="fas fa-solid fa-magnifying-glass-location"></i> ${Suchzeit}% <br>`;
     }
 
     if (this.config.showDistance) {
-      html += `Fahrstrecke: ${Strecke}km bei ${Geschwindigkeit}km/h<br>`;
+      html += `<i class="fas fa-road-circle-check"></i> ${Strecke.toFixed(1)}km  <i class="fa-solid fa-gauge-high"></i> ${Geschwindigkeit}km/h<br>`;
     }
 
-
-
     wrapper.innerHTML = html;
-
   } else {
     wrapper.innerText = "Kein Mäher gefunden.";
   }
