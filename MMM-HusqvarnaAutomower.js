@@ -68,6 +68,104 @@ Module.register("MMM-HusqvarnaAutomower", {
       .catch((err) => console.error("Mäher-Status Fehler:", err));
   },
 
+
+  getErrorMessage(errorCode_ger) {
+  switch (errorCode_ger) {
+    case 0: return "Unerwarteter Fehler";
+    case 1: return "Außerhalb des Arbeitsbereichs";
+    case 2: return "Kein Schleifensignal";
+    case 3: return "Falsches Schleifensignal";
+    case 4: return "Problem mit dem Schleifensensor vorne";
+    case 5: return "Problem mit dem Schleifensensor hinten";
+    case 6: return "Problem mit dem Schleifensensor links";
+    case 7: return "Problem mit dem Schleifensensor rechts";
+    case 8: return "Falscher PIN-Code";
+    case 9: return "Eingeklemmt";
+    case 10: return "Umgekippt";
+    case 11: return "Batterie schwach";
+    case 12: return "Batterie leer";
+    case 13: return "Kein Antrieb";
+    case 14: return "Mäher angehoben";
+    case 15: return "Angehoben";
+    case 16: return "In Ladestation festgefahren";
+    case 17: return "Ladestation blockiert";
+    case 18: return "Problem mit Kollisionssensor hinten";
+    case 19: return "Problem mit Kollisionssensor vorne";
+    case 20: return "Radmotor blockiert rechts";
+    case 21: return "Radmotor blockiert links";
+    case 22: return "Problem mit Radantrieb rechts";
+    case 23: return "Problem mit Radantrieb links";
+    case 24: return "Schneidsystem blockiert";
+    case 25: return "Schneidsystem blockiert";
+    case 26: return "Ungültige Subgeräte-Kombination";
+    case 27: return "Einstellungen wiederhergestellt";
+    case 28: return "Problem mit dem Speicherstromkreis";
+    case 29: return "Hang zu steil";
+    case 30: return "Problem mit dem Ladesystem";
+    case 31: return "Problem mit STOP-Knopf";
+    case 32: return "Problem mit Neigungssensor";
+    case 33: return "Mäher geneigt";
+    case 34: return "Schneiden gestoppt – Hang zu steil";
+    case 35: return "Radmotor überlastet rechts";
+    case 36: return "Radmotor überlastet links";
+    case 37: return "Ladestrom zu hoch";
+    case 38: return "Elektronisches Problem";
+    case 39: return "Problem mit Schneidmotor";
+    case 40: return "Begrenzter Schnitthöhenbereich";
+    case 42: return "Begrenzter Schnitthöhenbereich";
+    case 41: return "Unerwartete Schnitthöhenanpassung";
+    case 43: return "Problem mit Schnitthöhenantrieb";
+    case 44: return "Problem mit aktueller Schnitthöhe";
+    case 45: return "Problem mit Schnitthöhenrichtung";
+    case 46: return "Schnitthöhe blockiert";
+    case 47: return "Problem mit Schnitthöhe";
+    case 48: return "Keine Antwort vom Ladegerät";
+    case 49: return "Ultraschallproblem";
+    case 50: return "Leitkabel 1 nicht gefunden";
+    case 51: return "Leitkabel 2 nicht gefunden";
+    case 52: return "Leitkabel 3 nicht gefunden";
+    case 53: return "GPS-Navigationsproblem";
+    case 54: return "GPS-Signal zu schwach";
+    case 55: return "Heimfindung schwierig";
+    case 56: return "Leitkalibrierung abgeschlossen";
+    case 57: return "Leitkalibrierung fehlgeschlagen";
+    case 58: return "GPS Navigationsproblem";
+    case 59: return "GPS Signal schwach"; 
+    case 60: return "Problem Ladestation zu finden";
+    case 61: return "Führungscalibrierung beendet";
+    case 62: return "Führungskalibrierung fehlgeschlagen";
+    case 63: return "Vorübergehendes Batterieproblem";
+    case 64: return "Vorübergehendes Batterieproblem";
+    case 65: return "Vorübergehendes Batterieproblem";
+    case 66: return "Batterieproblem";
+    case 67: return "Batterieproblem";
+    case 68: return "Vorübergehendes Batterieproblem";
+    case 69: return "Alarm! Mäher wurde ausgeschaltet";
+    case 70: return "Alarm! Mäher gestoppt";
+    case 71: return "Alarm! Mäher angehoben";
+    case 72: return "Alarm! Mäher geneigt";
+    case 73: return "Alarm! Mäher in Bewegung";
+    case 74: return "Alarm! Außerhalb des Geozauns";
+    case 75: return "Verbindung geändert";
+    case 76: return "Verbindung NICHT geändert";
+    case 77: return "Kommunikationsmodul nicht verfügbar";
+    case 78: return "Gerutscht – Problem nicht durch Bewegungsmuster gelöst";
+    case 79: return "Ungültige Batteriekombination";
+    case 80: return "Unwucht im Schneidsystem (Warnung)";
+    case 81: return "Sicherheitsfunktion fehlerhaft";
+    case 82: return "Radmotor blockiert hinten rechts";
+    case 83: return "Radmotor blockiert hinten links";
+    case 84: return "Problem mit Radantrieb hinten rechts";
+    case 85: return "Problem mit Radantrieb hinten links";
+    case 86: return "Radmotor überlastet hinten rechts";
+    case 87: return "Radmotor überlastet hinten links";
+    case 88: return "Problem mit dem Winkelsensor";
+    case 89: return "Ungültige Systemkonfiguration";
+    case 90: return "Kein Strom in der Ladestation";
+    default: return "Unbekannter Fehlercode";
+  }
+},
+
   getDom() {
   const wrapper = document.createElement("div");
 
@@ -129,8 +227,15 @@ Module.register("MMM-HusqvarnaAutomower", {
       html += `<i class="fa-solid fa-circle-info"></i> <i class="fa-solid fa-house-signal"></i> &ensp; ${activityIcon}<br>`;
 
       if (errorCode > 0) {
+		
         html += `<i class="fas fa-exclamation-triangle"></i> Status: ${state}<br>`;
-        html += `<i class="fas fa-bug"></i> Fehlercode: ${errorCode}<br>`;
+		if(this.config.showError_as_Text) {
+		  const errorMessage = this.getErrorMessage(errorCode);  	
+		  html += `<i class="fas fa-bug"></i> Fehlercode: ${errorMessage}<br>`;
+		}
+		else{
+		  html += `<i class="fas fa-bug"></i> Fehlercode: ${errorCode}<br>`;
+		}
       }
     }
 
